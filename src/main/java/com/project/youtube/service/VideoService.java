@@ -59,4 +59,18 @@ public class VideoService {
 	Video getVideoById(String videoId) {
 		return videoRepository.findById(videoId);
 	}
+
+	public VideoDto getVideoDetails(String videoId) {
+		Video video= getVideoById(videoId);
+		
+		VideoDto vidDto= new VideoDto();
+		vidDto.setVideoUrl(video.getVideoUrl());
+		vidDto.setThumbnailUrl(video.getThumbnail());
+		vidDto.setDescription(video.getDescription());
+		vidDto.setTags(video.getTags());
+		vidDto.setTitle(video.getTitle());
+		vidDto.setId(video.getId().toString());
+		
+		return vidDto;
+	}
 }
