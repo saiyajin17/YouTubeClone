@@ -1,6 +1,5 @@
 package com.project.youtube.model;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Set;
 
@@ -12,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Video {
 
 	@Id
-	private BigInteger id;
+	private String id;
 	private String title;
 	private String description;
 	private String userId;
@@ -25,11 +24,11 @@ public class Video {
 	private String thumbnail;
 	private List<Comment> commentList;
 
-	public BigInteger getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(BigInteger id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -125,7 +124,7 @@ public class Video {
 		super();
 	}
 
-	public Video(BigInteger id, String title, String description, String userId, Integer likes, Integer dislikes,
+	public Video(String id, String title, String description, String userId, Integer likes, Integer dislikes,
 			Set<String> tags, String videoUrl, VideoStatus videoStatus, Integer viewCount, String thumbnail,
 			List<Comment> commentList) {
 		super();

@@ -1,17 +1,15 @@
 package com.project.youtube.dto;
 
-import java.math.BigInteger;
-
 public class UploadVideoResponse {
 
-	private BigInteger videoId;
+	private String videoId;
 	private String videoUrl;
 
-	public BigInteger getVideoId() {
+	public String getVideoId() {
 		return videoId;
 	}
 
-	public void setVideoId(BigInteger videoId) {
+	public void setVideoId(String videoId) {
 		this.videoId = videoId;
 	}
 
@@ -23,7 +21,7 @@ public class UploadVideoResponse {
 		this.videoUrl = videoUrl;
 	}
 
-	public UploadVideoResponse(BigInteger bigInteger, String videoUrl) {
+	public UploadVideoResponse(String bigInteger, String videoUrl) {
 		super();
 		this.videoId = bigInteger;
 		this.videoUrl = videoUrl;

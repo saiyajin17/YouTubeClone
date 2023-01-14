@@ -7,7 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.project.youtube.dto.UploadVideoResponse;
 import com.project.youtube.dto.VideoDto;
 import com.project.youtube.model.Video;
-import com.project.youtube.model.VideoStatus;
 import com.project.youtube.repository.VideoRepository;
 
 @Service
@@ -49,7 +48,9 @@ public class VideoService {
 
 	public String uploadThumbnail(MultipartFile file, String videoId) {
 		Video savedVideo = getVideoById(videoId);
+		
 		String thumbUrl = awsS3Service.uploadFile(file);
+		
 		savedVideo.setThumbnail(thumbUrl);
 		videoRepository.save(savedVideo);
 		return thumbUrl;
@@ -57,7 +58,8 @@ public class VideoService {
 	}
 
 	Video getVideoById(String videoId) {
-		return videoRepository.findById(videoId);
+		return videoRepository.findById(videoId)
+                .orElseThrow(() -> new IllegalArgumentException("Cannot find video by id - " + videoId));
 	}
 
 	public VideoDto getVideoDetails(String videoId) {
@@ -69,7 +71,7 @@ public class VideoService {
 		vidDto.setDescription(video.getDescription());
 		vidDto.setTags(video.getTags());
 		vidDto.setTitle(video.getTitle());
-		vidDto.setId(video.getId().toString());
+		vidDto.setId(video.getId());
 		
 		return vidDto;
 	}
