@@ -14,6 +14,17 @@ public class VideoDto {
 	private String videoUrl;
 	private VideoStatus videoStatus;
 	private String thumbnailUrl;
+	private Integer likeCount;
+	private Integer dislikeCount;
+	private Integer viewCount;
+
+	public Integer getViewCount() {
+		return viewCount;
+	}
+
+	public void setViewCount(Integer viewCount) {
+		this.viewCount = viewCount;
+	}
 
 	public String getId() {
 		return id;
@@ -70,9 +81,29 @@ public class VideoDto {
 	public void setThumbnailUrl(String thumbnailUrl) {
 		this.thumbnailUrl = thumbnailUrl;
 	}
+	
+	public Integer getLikeCount() {
+		return likeCount;
+	}
+
+	public void setLikeCount(Integer likeCount) {
+		this.likeCount = likeCount;
+	}
+
+	public Integer getDislikeCount() {
+		return dislikeCount;
+	}
+
+	public void setDislikeCount(Integer dislikeCount) {
+		this.dislikeCount = dislikeCount;
+	}
+
+	public VideoDto() {
+		super();
+	}
 
 	public VideoDto(String id, String title, String description, Set<String> tags, String videoUrl,
-			VideoStatus videoStatus, String thumbnailUrl) {
+			VideoStatus videoStatus, String thumbnailUrl, Integer likeCount, Integer dislikeCount, Integer viewCount) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -81,15 +112,10 @@ public class VideoDto {
 		this.videoUrl = videoUrl;
 		this.videoStatus = videoStatus;
 		this.thumbnailUrl = thumbnailUrl;
+		this.likeCount = likeCount;
+		this.dislikeCount = dislikeCount;
+		this.viewCount = viewCount;
 	}
-
-	public VideoDto() {
-		super();
-	}
-
-	@Override
-	public String toString() {
-		return "VideoDto [id=" + id + ", title=" + title + ", description=" + description + ", tags=" + tags
-				+ ", videoUrl=" + videoUrl + ", videoStatus=" + videoStatus + ", thumbnailUrl=" + thumbnailUrl + "]";
-	}
+	
+	
 }

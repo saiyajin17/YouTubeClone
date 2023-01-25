@@ -1,41 +1,58 @@
 package com.project.youtube.model;
 
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Document(value = "User")
 public class User {
 
 	@Id
-	private int id;
+	private String id;
 	private String firstName;
 	private String lastName;
 	private String fullName;
 	private String emailAddress;
-	private Set<String> subscribedToUsers;
-	private Set<String> subscribers;
-	private Set<String> videoHistory;
-	private Set<String> likedVideos;
-	private Set<String> dislikedVideos;
+	private String password;
+	private String sub;
+	private Set<String> subscribedToUsers=ConcurrentHashMap.newKeySet();
+	private Set<String> subscribers=ConcurrentHashMap.newKeySet();
+	private Set<String> videoHistory = ConcurrentHashMap.newKeySet();
+	private Set<String> likedVideos = ConcurrentHashMap.newKeySet();
+	private Set<String> dislikedVideos=ConcurrentHashMap.newKeySet();
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
+
+	public String getSub() {
+		return sub;
+	}
+
+	public void setSub(String sub) {
+		this.sub = sub;
+	}
+
 
 	public String getFirstName() {
 		return firstName;
 	}
+	
+	public String getPassword() {
+		return password;
+	}
 
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
@@ -108,28 +125,69 @@ public class User {
 		super();
 	}
 
-	public User(int id, String firstName, String lastName, String fullName, String emailAddress,
+	public User(String id, String firstName, String lastName, String fullName, String emailAddress, String password,
 			Set<String> subscribedToUsers, Set<String> subscribers, Set<String> videoHistory, Set<String> likedVideos,
-			Set<String> dislikedVideos) {
+			Set<String> dislikedVideos,String sub) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.fullName = fullName;
 		this.emailAddress = emailAddress;
+		this.password = password;
 		this.subscribedToUsers = subscribedToUsers;
 		this.subscribers = subscribers;
 		this.videoHistory = videoHistory;
 		this.likedVideos = likedVideos;
+		this.sub=sub;
 		this.dislikedVideos = dislikedVideos;
 	}
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", fullName=" + fullName
-				+ ", emailAddress=" + emailAddress + ", subscribedToUsers=" + subscribedToUsers + ", subscribers="
-				+ subscribers + ", videoHistory=" + videoHistory + ", likedVideos=" + likedVideos + ", dislikedVideos="
-				+ dislikedVideos + "]";
+				+ ", emailAddress=" + emailAddress + ", password=" + password + ", subscribedToUsers="
+				+ subscribedToUsers + ", subscribers=" + subscribers + ", videoHistory=" + videoHistory
+				+ ", likedVideos=" + likedVideos + ", dislikedVideos=" + dislikedVideos + "]";
+	}
+	
+	
+	/******************Custom Methods**************************/
+	public void addToLikedVideos(String videoId) {
+		likedVideos.add(videoId);
 	}
 
+	public void removeFromLikedVideos(String videoId) {
+		likedVideos.remove(videoId);
+	}
+
+	public void removeFromDisLikedVideos(String videoId) {
+		dislikedVideos.remove(videoId);
+	}
+
+	public void addToDisLikedVideos(String videoId) {
+		dislikedVideos.add(videoId);
+	}
+
+	public void addToVideoHistory(String videoId) {
+		videoHistory.add(videoId);
+	}
+
+	public void addToSubscribedToUsers(String userId) {
+		subscribedToUsers.add(userId);
+	}
+
+	public void addToSubscribers(String currentUser) {
+		subscribers.add(currentUser);
+	}
+
+	public void removeFromSubscribedToUsers(String userId) {
+		subscribedToUsers.remove(userId);
+	}
+
+	public void removeFromSubscribers(String userId) {
+		subscribers.remove(userId);
+	}
+	
+	
 }
