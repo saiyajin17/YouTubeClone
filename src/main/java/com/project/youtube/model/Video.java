@@ -2,9 +2,13 @@ package com.project.youtube.model;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.project.youtube.controller.VideoController;
 
 
 @Document(value = "Video")
@@ -15,14 +19,14 @@ public class Video {
 	private String title;
 	private String description;
 	private String userId;
-	private Integer likes;
-	private Integer dislikes;
+	private AtomicInteger likes=new AtomicInteger(0);
+	private AtomicInteger dislikes=new AtomicInteger(0);
 	private Set<String> tags;
 	private String videoUrl;
 	private VideoStatus videoStatus;
-	private Integer viewCount;
+	private AtomicInteger viewCount = new AtomicInteger(0);
 	private String thumbnail;
-	private List<Comment> commentList;
+	private List<Comment> commentList = new CopyOnWriteArrayList<>();
 
 	public String getId() {
 		return id;
@@ -56,19 +60,19 @@ public class Video {
 		this.userId = userId;
 	}
 
-	public Integer getLikes() {
+	public AtomicInteger getLikes() {
 		return likes;
 	}
 
-	public void setLikes(Integer likes) {
+	public void setLikes(AtomicInteger likes) {
 		this.likes = likes;
 	}
 
-	public Integer getDislikes() {
+	public AtomicInteger getDislikes() {
 		return dislikes;
 	}
 
-	public void setDislikes(Integer dislikes) {
+	public void setDislikes(AtomicInteger dislikes) {
 		this.dislikes = dislikes;
 	}
 
@@ -96,11 +100,11 @@ public class Video {
 		this.videoStatus = videoStatus;
 	}
 
-	public Integer getViewCount() {
+	public AtomicInteger getViewCount() {
 		return viewCount;
 	}
 
-	public void setViewCount(Integer viewCount) {
+	public void setViewCount(AtomicInteger viewCount) {
 		this.viewCount = viewCount;
 	}
 
@@ -124,8 +128,8 @@ public class Video {
 		super();
 	}
 
-	public Video(String id, String title, String description, String userId, Integer likes, Integer dislikes,
-			Set<String> tags, String videoUrl, VideoStatus videoStatus, Integer viewCount, String thumbnail,
+	public Video(String id, String title, String description, String userId, AtomicInteger likes, AtomicInteger dislikes,
+			Set<String> tags, String videoUrl, VideoStatus videoStatus, AtomicInteger viewCount, String thumbnail,
 			List<Comment> commentList) {
 		super();
 		this.id = id;
@@ -149,5 +153,31 @@ public class Video {
 				+ ", videoStatus=" + videoStatus + ", viewCount=" + viewCount + ", thumbnail=" + thumbnail
 				+ ", commentList=" + commentList + "]";
 	}
+	
+	/****************Custom Methods******************************/
+	public void incrementLikes() {
+		likes.incrementAndGet();
+	}
+	
+	public void decrementLikes() {
+		likes.decrementAndGet();
+	}
+	
+	
+	public void incrementDislikes() {
+		dislikes.incrementAndGet();
+	}
+	
+	public void decrementDislikes() {
+		dislikes.decrementAndGet();
+	}
 
+	public void incrementViewCount() {
+		viewCount.incrementAndGet();
+	}
+
+	public void addComment(Comment comment) {
+		commentList.add(comment);
+	}
 }
+

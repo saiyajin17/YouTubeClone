@@ -1,5 +1,12 @@
-{"properties": [{
-  "name": "cloud.aws.stack.auto",
-  "type": "java.lang.String",
-  "description": "A description for 'cloud.aws.stack.auto'"
-}]}
+{"properties": [
+  {
+    "name": "cloud.aws.stack.auto",
+    "type": "java.lang.String",
+    "description": "A description for 'cloud.aws.stack.auto'"
+  },
+  {
+    "name": "auth0.audience",
+    "type": "java.lang.String",
+    "description": "A description for 'auth0.audience'"
+  }
+]}

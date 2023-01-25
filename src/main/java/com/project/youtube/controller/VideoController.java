@@ -1,5 +1,8 @@
 package com.project.youtube.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,8 +17,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.youtube.dto.CommentDto;
 import com.project.youtube.dto.UploadVideoResponse;
 import com.project.youtube.dto.VideoDto;
+import com.project.youtube.model.Comment;
 import com.project.youtube.service.VideoService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:4200")
 public class VideoController {
-
+	
 	@Autowired
 	private VideoService videoService;
 
@@ -47,12 +52,55 @@ public class VideoController {
 		return videoService.editVideo(videodto);
 	}
 	
-	
-	@GetMapping("/{videoId}")
+	/*
+	 * @GetMapping("/{videoId}")
+	 * 
+	 * @ResponseStatus(code = HttpStatus.OK) public VideoDto
+	 * getVideoDetails(@PathVariable String videoId) { return
+	 * videoService.getVideoDetails(videoId); }
+	 */
+	@GetMapping()
 	@ResponseStatus(code = HttpStatus.OK)
-	public VideoDto getVideoDetails(@PathVariable String videoId) {
-		return videoService.getVideoDetails(videoId);
-		
+	public VideoDto getVideoDetails(@RequestParam String videoId,@RequestParam String userId) {
+		return videoService.getVideoDetails(videoId,userId);
 	}
+	
+	@PostMapping("/like")
+	@ResponseStatus(code = HttpStatus.OK)
+	public VideoDto likeVideo(@RequestParam String videoId,@RequestParam String userId) {
+		List<String> Ids= new ArrayList<String>();
+		Ids.add(videoId);
+		Ids.add(userId);
+		return videoService.likeVideo(Ids);
+	}
+		
+	@PostMapping("/dislike")
+	@ResponseStatus(code = HttpStatus.OK)
+	public VideoDto dislikeVideo(@RequestParam String videoId,@RequestParam String userId) {
+		List<String> Ids= new ArrayList<String>();
+		Ids.add(videoId);
+		Ids.add(userId);
+		 return videoService.dislikeVideo(Ids);
+	}
+	
+	@PostMapping("/comment/{videoId}")
+	@ResponseStatus(code = HttpStatus.OK)
+	public void addComment(@PathVariable String videoId,@RequestBody CommentDto commentDto) {
+		videoService.addComment(videoId,commentDto);
+	}
+	
+	@GetMapping("/comment/{videoId}")
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<CommentDto> getAllComments(@PathVariable String videoId) {
+		return videoService.getAllComments(videoId);
+	}
+	
+	@GetMapping("/all")
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<VideoDto> getAllVideos(){
+		return videoService.getAllVideos();
+	}
+	
+	
 	
 }
